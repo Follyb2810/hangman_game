@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
+// using Env = System;
 
 public class NewBehaviourScript : MonoBehaviour
 {
     public TMP_Text timeField;
     public TMP_Text wordToFind;
     private float time;// = 3.1f;
+    // private string path_name = Env.Environment.CurrentDirectory + "/Assets/word.txt";
+    // Environment.CurrentDirectory + "/Assets/word.txt";
+    // private string[] words = File.ReadAllLines(@"Assets/word.txt");
+    // private string[] words = File.ReadAllLines(@"Assets/word.txt");
+    private string[] words;
     private string[] wordLocal = new string[] { "milk", "bread", "eggs", "cheese", "yogurt", "pop corn", "shawarma" };
     private string hiddenWord;
     private string choosenWord;
@@ -32,22 +39,36 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        // string path = Path.Combine(Application.streamingAssetsPath, "word.txt");
+        string path = Path.Combine(
+    Application.dataPath,
+    "Texts/words.txt");
+        //     string path = Path.Combine(
+        // Application.streamingAssetsPath,
+        // "Texts/words.txt");
+
+        words = File.ReadAllLines(path);
         // int counter = 0;
-        // while (counter < 6)
+        // while (counter < 6)xa
         // {
         //     Debug.Log(wordLocal[counter]);
+        //     Debug.Log(words[counter]);
         //     counter++;
         // }
         // for (int i = 0; i < wordLocal.Length; i++)
+        // for (int i = 0; i < words.Length; i++)
         // {
 
         // }
 
-        var rand = Random.Range(0, wordLocal.Length);
+        // var rand = Random.Range(0, wordLocal.Length);
+        var rand = Random.Range(0, words.Length);
 
         // choosenWord = "milk".ToUpper();
 
-        choosenWord = wordLocal[rand].ToUpper();
+        // choosenWord = wordLocal[rand].ToUpper();
+        choosenWord = words[rand].ToUpper();
         Debug.Log("chosen word: " + choosenWord);
 
         // wordToFind.text = "Word to find: " + choosenWord;
@@ -74,19 +95,22 @@ public class NewBehaviourScript : MonoBehaviour
 
 
 
+        // for (int i = 0; i < words.Length; i++)
         // for (int i = 0; i < wordLocal.Length; i++)
         // {
+        //     words[i] = words[i].ToUpper();
+        //     wordLocal[i] = wordLocal[i].ToUpper();
         //     wordLocal[i] = wordLocal[i].ToUpper();
         // }
 
+        // foreach (string word in words)
         // foreach (string word in wordLocal)
         // {
         //     string upper = word.ToUpper();
 
         //     Debug.Log(upper);
         // }
-        // Debug.Log(wordLocal[0]);
-        // Debug.Log(wordLocal[2]);
+
     }
 
     // Update is called once per frame
