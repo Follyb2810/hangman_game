@@ -2475,8 +2475,8 @@ MonoBehaviour:
   - {fileID: 1634296102}
   - {fileID: 348470547}
   - {fileID: 814364228}
-  windText: {fileID: 0}
-  loseText: {fileID: 0}
+  winText: {fileID: 472199425}
+  loseText: {fileID: 1373034313}
 --- !u!114 &1728193545
 MonoBehaviour:
   m_ObjectHideFlags: 0

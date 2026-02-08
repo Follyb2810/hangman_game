@@ -108,6 +108,17 @@ public class NewBehaviourScript : MonoBehaviour
         {
             Debug.Log("Middle mouse clicked this frame");
         }
+        //! using input
+        // for (char c = 'A'; c <= 'Z'; c++)
+        // {
+        //     if (Input.GetKeyDown(c.ToString()))
+        //     {
+        //         HandleLetter(c.ToString());
+        //         break;
+        //     }
+        // }
+
+        //!
         if (gameEnd == false)
         {
 
@@ -120,12 +131,63 @@ public class NewBehaviourScript : MonoBehaviour
     {
 
     }
+    void HandleLetter(string pressLetter)
+    {
+        pressLetter = pressLetter.ToUpper();
+
+        if (choosenWord.Contains(pressLetter))
+        {
+            int pos = choosenWord.IndexOf(pressLetter);
+
+            while (pos != -1)
+            {
+                hiddenWord =
+                    hiddenWord.Substring(0, pos) +
+                    pressLetter +
+                    hiddenWord.Substring(pos + 1);
+
+                choosenWord =
+                    choosenWord.Substring(0, pos) +
+                    "_" +
+                    choosenWord.Substring(pos + 1);
+
+                pos = choosenWord.IndexOf(pressLetter, pos + 1);
+            }
+
+            wordToFind.text = "Word to find: " + hiddenWord;
+        }
+        else
+        {
+            if (fails < hangMan.Length)
+            {
+                hangMan[fails].SetActive(true);
+                fails++;
+            }
+        }
+
+        if (fails >= hangMan.Length)
+        {
+            loseText.SetActive(true);
+            winText.SetActive(false);
+            gameEnd = true;
+        }
+
+        if (!hiddenWord.Contains("_"))
+        {
+            winText.SetActive(true);
+            loseText.SetActive(false);
+            gameEnd = true;
+        }
+    }
+
     private void OnGUI()
     {
+        if (gameEnd) return;
+
         Event e = Event.current;
         bool keyLength = e.keyCode.ToString().Length == 1;
+        string pressLetter = e.keyCode.ToString().ToUpper();
 
-        string pressLetter = e.keyCode.ToString();
         if (e.type == EventType.KeyDown && keyLength)
         {
             if (choosenWord.Contains(pressLetter))
@@ -134,57 +196,44 @@ public class NewBehaviourScript : MonoBehaviour
 
                 while (pos != -1)
                 {
-                    Debug.Log("Found letter at index: " + pos);
-                    hiddenWord = hiddenWord.Substring(0, pos) + pressLetter + hiddenWord.Substring(pos + 1);
-                    Debug.Log("hiddenWord: " + hiddenWord);
+                    hiddenWord =
+                        hiddenWord.Substring(0, pos) +
+                        pressLetter +
+                        hiddenWord.Substring(pos + 1);
 
-                    choosenWord = choosenWord.Substring(0, pos) + "_" + choosenWord.Substring(pos + 1);
-                    Debug.Log("choosenWord: " + choosenWord);
+                    choosenWord =
+                        choosenWord.Substring(0, pos) +
+                        "_" +
+                        choosenWord.Substring(pos + 1);
+
                     pos = choosenWord.IndexOf(pressLetter, pos + 1);
-                    // pos = choosenWord.IndexOf(pressLetter);
-
                 }
+
                 wordToFind.text = "Word to find: " + hiddenWord;
-
-
             }
             else
             {
-                hangMan[fails].SetActive(true);
-                fails++;
+                if (fails < hangMan.Length)
+                {
+                    hangMan[fails].SetActive(true);
+                    fails++;
+                }
             }
-            if (fails == hangMan.Length)
+
+            if (fails >= hangMan.Length)
             {
                 loseText.SetActive(true);
                 winText.SetActive(false);
                 gameEnd = true;
-
-
             }
+
             if (!hiddenWord.Contains("_"))
             {
-                gameEnd = true;
                 winText.SetActive(true);
                 loseText.SetActive(false);
-
+                gameEnd = true;
             }
-            Debug.Log("Key Down is pressed " + pressLetter);
-        }
-        else if (e.type == EventType.KeyUp && keyLength)
-        {
-            Debug.Log("Key Up is pressed" + pressLetter);
-        }
-        else if (e.type == EventType.MouseDown && keyLength)
-        {
-            Debug.Log("Mouse Down is pressed" + pressLetter);
-        }
-        else if (e.type == EventType.MouseUp && keyLength)
-        {
-            Debug.Log("Mouse Up is pressed " + pressLetter);
-        }
-        else if (e.type == EventType.MouseDrag && keyLength)
-        {
-            Debug.Log("Mouse Drag is pressed " + pressLetter);
         }
     }
+
 }
